@@ -1,7 +1,10 @@
 const Joke = require("../models/jokes.models");
 
 const getAllJokes = (req, res) => {
+    console.log("GETTING JOKES")
     Joke.find()
+        // .then(res => res.json())
+        // .then(jokes => console.log(jokes))
         .then(allJokes => res.json(allJokes))
         .catch((err) => console.log(err));
 };
@@ -14,11 +17,28 @@ const getJokeById = (req, res) => {
 };
 
 const createNewJoke = (req, res) => {
+    console.log("CREATING A JOKE")
     const { body } = req;
     Joke.create(body)
     .then(newJoke => res.json(newJoke))
     .catch(err => console.log(err))
 };
+
+const updateJoke = (req, res) => {
+    Joke.findOneAndUpdate({ _id: req.params._id}, req.body, {
+        new: true,
+        runValidators: true,
+    })
+        .then(updatedJoke => res.json(updatedJoke))
+        .catch(err => console.log(err))
+
+}
+const deleteJoke = (req, res) => {
+    Joke.deleteOne({ _id: req.params._id})
+        .then(result => res.json(result))
+        .catch(err => console.log(err))
+
+}
 
 
 
@@ -26,4 +46,6 @@ module.exports = {
     getAllJokes,
     getJokeById,
     createNewJoke,
+    updateJoke,
+    deleteJoke,
 }

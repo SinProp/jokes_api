@@ -1,12 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const jokes_schema = new mongoose.Schema(
     {
-        setup: String,
-        punchline: String
+        setup: {
+            type: String
+        },
+        punchline: {
+            type: String
+        } 
 
     },
-    { timestamp: true }
+    { timestamps: true }
 );
 
 const Joke = mongoose.model("Joke", jokes_schema);
